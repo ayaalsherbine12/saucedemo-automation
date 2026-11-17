@@ -80,7 +80,8 @@ npm run test:cucumber
 | `npm run test:allure` | `test:e2e`, then generate Allure HTML report |
 | `npm run allure:generate` | Build `allure-report/` from `allure-results/` |
 | `npm run allure:open` | Open the generated report in the browser |
-| `npm run allure:share` | Serve live report from `allure-results/` on all interfaces (LAN) |
+| `npm run allure:share` | Generate HTML, then serve `allure-report/` on LAN (port 8080) |
+| `npm run allure:pack` | Generate HTML and zip `allure-report/` → `allure-report-share.zip` |
 | `npm run allure:clean` | Remove `allure-results/` and `allure-report/` |
 | `npm run browsers:install` | Install Playwright’s Chromium (optional if using Edge/Chrome channel) |
 
@@ -106,13 +107,21 @@ To start fresh before a new run (clears raw results and the last HTML report):
 npm run allure:clean
 ```
 
-To preview or share results without generating `allure-report/` first (prints a URL you can open locally or on the same network):
+**Share on the network** (generates `allure-report/`, then serves static HTML — required because Allure 2.32+ blocks `allure serve -h 0.0.0.0`):
 
 ```bash
 npm run allure:share
 ```
 
-Optional fixed port: `npx allure serve ./allure-results -h 0.0.0.0 -p 8080`
+Custom port: `set ALLURE_SHARE_PORT=9090&& npm run allure:share` (PowerShell: `$env:ALLURE_SHARE_PORT=9090; npm run allure:share`).
+
+**Share as a file** (email, Teams, etc.):
+
+```bash
+npm run allure:pack
+```
+
+Unzip `allure-report-share.zip` and open `index.html` in a browser.
 
 ## Assignment mapping (steps 4–11)
 

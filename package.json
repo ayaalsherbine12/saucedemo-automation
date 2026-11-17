@@ -13,7 +13,8 @@
     "test:allure": "npm run allure:clean && npm run test:e2e && npm run allure:generate",
     "allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
     "allure:open": "allure open ./allure-report",
-    "allure:share": "allure serve ./allure-results -h 0.0.0.0",
+    "allure:share": "npm run allure:generate && node scripts/serve-allure-report.mjs",
+    "allure:pack": "npm run allure:generate && node scripts/pack-allure-report.mjs",
     "allure:clean": "node -e \"['allure-results','allure-report'].forEach((d) => require('fs').rmSync(d, { recursive: true, force: true }))\"",
     "browsers:install": "playwright install chromium"
   },
