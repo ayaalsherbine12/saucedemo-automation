@@ -2,6 +2,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { exec } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const MIME = {
@@ -18,7 +19,9 @@ const MIME = {
   '.csv': 'text/csv; charset=utf-8',
 };
 
-const reportDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'allure-report');
+const reportDir = process.env.ALLURE_REPORT_DIR
+  ? path.resolve(process.env.ALLURE_REPORT_DIR)
+  : path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'allure-report');
 
 if (!fs.existsSync(path.join(reportDir, 'index.html'))) {
   console.error('Missing allure-report/index.html. Run: npm run allure:generate');
@@ -75,10 +78,20 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, host, () => {
   console.log(`Serving static Allure report: ${reportDir}`);
-  console.log('Share one of these URLs (same Wi‑Fi / LAN):');
+  console.log('Do not open index.html as a file — use one of these URLs:');
   for (const url of browseUrls()) {
     console.log(`  ${url}`);
   }
-  console.log('\nTo share offline, zip the allure-report folder and send the archive.');
-  console.log('Press Ctrl+C to stop.');
+  console.log('\nPress Ctrl+C to stop.');
+
+  if (process.env.ALLURE_OPEN_BROWSER === '1') {
+    const url = `http://127.0.0.1:${port}`;
+    if (process.platform === 'win32') {
+      exec(`cmd /c start "" "${url}"`);
+    } else if (process.platform === 'darwin') {
+      exec(`open "${url}"`);
+    } else {
+      exec(`xdg-open "${url}"`);
+    }
+  }
 });

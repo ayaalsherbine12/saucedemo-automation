@@ -81,7 +81,8 @@ npm run test:cucumber
 | `npm run allure:generate` | Build `allure-report/` from `allure-results/` |
 | `npm run allure:open` | Open the generated report in the browser |
 | `npm run allure:share` | Generate HTML, then serve `allure-report/` on LAN (port 8080) |
-| `npm run allure:pack` | Generate HTML and zip `allure-report/` → `allure-report-share.zip` |
+| `npm run allure:html` | Single shareable `index.html` (no server); copies to Desktop + zip |
+| `npm run allure:pack` | Same as `allure:html` |
 | `npm run allure:clean` | Remove `allure-results/` and `allure-report/` |
 | `npm run browsers:install` | Install Playwright’s Chromium (optional if using Edge/Chrome channel) |
 
@@ -115,13 +116,13 @@ npm run allure:share
 
 Custom port: `set ALLURE_SHARE_PORT=9090&& npm run allure:share` (PowerShell: `$env:ALLURE_SHARE_PORT=9090; npm run allure:share`).
 
-**Share as a file** (email, Teams, etc.):
+**Share with others (no `.bat`, no server)** — one self-contained HTML file:
 
 ```bash
-npm run allure:pack
+npm run allure:html
 ```
 
-Unzip `allure-report-share.zip` and open `index.html` in a browser.
+Creates `allure-report-single/index.html`, **`Desktop\SauceDemo-Allure-Report.html`**, and `allure-report-share.zip`. Send the HTML or zip; recipients open the file in a browser.
 
 ## Assignment mapping (steps 4–11)
 

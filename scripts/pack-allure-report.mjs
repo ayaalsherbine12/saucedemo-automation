@@ -36,5 +36,29 @@ if (process.platform === 'win32') {
   }
 }
 
+const batDest = path.join(reportDir, 'OPEN-REPORT.bat');
+const batSrc = path.join(root, 'scripts', 'desktop-open-report.bat');
+if (fs.existsSync(batSrc)) {
+  let bat = fs.readFileSync(batSrc, 'utf8');
+  bat = bat.replace(
+    /for %%I in \("%~dp0\.\."\).*?\r?\n/,
+    `set "PROJECT=${root.replace(/\\/g, '\\\\')}"\r\n`,
+  );
+  fs.writeFileSync(batDest, bat);
+}
+
+const readme = path.join(reportDir, 'READ-ME-FIRST.txt');
+fs.writeFileSync(
+  readme,
+  [
+    'Allure reports do not work when you double-click index.html (Failed to fetch).',
+    '',
+    'Windows: double-click OPEN-REPORT.bat in this folder.',
+    'From the project folder: npm run allure:open',
+    '',
+    'Keep the server window open while viewing the report.',
+  ].join('\r\n'),
+);
+
 console.log(`Created: ${outZip}`);
-console.log('Recipients can unzip and open index.html in a browser.');
+console.log('Recipients must run OPEN-REPORT.bat (or npm run allure:open), not open index.html as a file.');
