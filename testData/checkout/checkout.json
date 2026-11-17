@@ -1,0 +1,29 @@
+{
+  "jsonPlaceholder": {
+    "userId": 1,
+    "apiUrl": "https://jsonplaceholder.typicode.com/users/1"
+  },
+  "overview": {
+    "items": [
+      {
+        "name": "Sauce Labs Fleece Jacket",
+        "price": "$49.99"
+      },
+      {
+        "name": "Sauce Labs Onesie",
+        "price": "$7.99"
+      }
+    ],
+    "shippingInformation": "Free Pony Express Delivery!"
+  },
+  "complete": {
+    "header": "Thank you for your order!",
+    "message": "Your order has been dispatched"
+  },
+  "fallbackCustomer": {
+    "firstName": "Leanne",
+    "lastName": "Graham",
+    "postalCode": "92998-3874",
+    "note": "Mirrors JSONPlaceholder /users/1 when the API is unreachable"
+  }
+}
